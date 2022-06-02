@@ -1,0 +1,79 @@
+﻿{
+   "CodeGenerationMode": 2,
+   "ContextClassName": "Fixture_WorldCupContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": true,
+   "ModelNamespace": null,
+   "OutputContextPath": "Data",
+   "OutputPath": "Models",
+   "ProjectRootNamespace": "WebAppiWorldCup2022",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[Coach]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Groups]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Incidents]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Instance]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Match]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Person]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Player]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Referee]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[RefereeMatch]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SoccerTeam]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Stadium]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "alejandro-pc\\sqlexpress.Fixture_WorldCup.dbo",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoConstructor": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false
+}
