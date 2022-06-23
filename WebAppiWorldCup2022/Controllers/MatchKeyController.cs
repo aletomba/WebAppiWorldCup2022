@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using WebAppiWorldCup2022.Models;
 using WebAppiWorldCup2022.Models.ViewModels;
 using WebAppiWorldCup2022.Services.RoundOf16Services;
 
@@ -22,29 +24,34 @@ namespace WebAppiWorldCup2022.Controllers
         }
         
         [HttpGet]
-        public async Task<IActionResult<Matchkey>> Get()
-        {
-            return
-        }
+        //public async Task<IActionResult<Matchkey>> Get()
+        //{
+        //    return;
+        //}
 
 
 
         // GET api/<MatchKeyController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IEnumerable<Matchkey>> Get(int id)
         {
-            return "value";
+            var teamMaxPoint = await _service.GetWinner(id);
+            var key = _mapper.Map<IEnumerable<Matchkey>>(teamMaxPoint);
+            return key;
         }
 
 
-        
-        [HttpPost]
-        public async Task<Matchkey> Post(Matchkey key1)
-        {
-            return await _roundOfSexteen.GetKey(key1);
-        }
 
-       
+        //[HttpPost]
+        //public async Task<IEnumerable<Matchkey>> Post(Matchkey match)
+        //{
+        //    var Winners = await _service.GetWinner();
+        //    var view = _mapper.Map<IEnumerable<Matchkey>>(Winners);
+        //    return view;
+
+        //}
+
+
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {

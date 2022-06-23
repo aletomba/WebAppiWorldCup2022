@@ -38,8 +38,8 @@ namespace WebAppiWorldCup2022.Controllers
 
             var incidents = await _context.Incidents.Include(x => x.IdMatchNavigation)
                                                        .ThenInclude(p => p.IdScoccerTeamLocalNavigation)
-                                                    .Include(x => x.IdMatchNavigation)
-                                                        .ThenInclude(p => p.IdSoccerteamVisitNavigation)
+                                                    .Include(x => x.IdSocceteamNavigation)
+                                                        .ThenInclude(p => p.IdGroupsNavigation)
                                                     .Include(x => x.IdMatchNavigation)
                                                         .ThenInclude(p => p.IdStadiumNavigation)
                                                     .Include(x => x.IdMatchNavigation)

@@ -5,6 +5,7 @@ using WebAppiWorldCup2022.Services.MathcServices;
 using WebAppiWorldCup2022.Services.RoundOf16Services;
 using WebAppiWorldCup2022.Services.RoundOfSixteenServices;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -29,6 +30,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(x => x.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader());
 
 app.UseAuthorization();
 

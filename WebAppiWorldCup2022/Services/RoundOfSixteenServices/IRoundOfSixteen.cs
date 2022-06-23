@@ -5,7 +5,8 @@ namespace WebAppiWorldCup2022.Services.RoundOf16Services
 {
     public interface IRoundOfSixteen
     {
-        Task<IEnumerable<Incidents>> GetIncidents();
-        Task<Matchkey> GetKey(Matchkey matchkey);
+        Task<IEnumerable<SoccerTeam>> GetPoints();
+
+        Task<IEnumerable<SoccerTeam>> GetWinner(int g);
     }
 }

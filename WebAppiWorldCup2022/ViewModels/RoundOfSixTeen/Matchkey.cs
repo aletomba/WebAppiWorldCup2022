@@ -4,5 +4,6 @@
     {
         public string?  SoccerTeam1 { get; set; }
         public string? SoccerTeam2 { get; set; }
+       
     }
 }

@@ -14,48 +14,23 @@ namespace WebAppiWorldCup2022.Services.RoundOfSixteenServices
         {
             _context = context;
         }
-        
-        public async Task<IEnumerable<Incidents>> GetIncidents()
+
+        public async Task<IEnumerable<SoccerTeam>> GetPoints()
         {
-            return await _context.Incidents.Include(x => x.IdMatchNavigation)
-                                                       .ThenInclude(p => p.IdScoccerTeamLocalNavigation)
-                                                    .Include(x => x.IdMatchNavigation)
-                                                        .ThenInclude(p => p.IdSoccerteamVisitNavigation)
-                                                    .Include(x => x.IdMatchNavigation)
-                                                        .ThenInclude(p => p.IdStadiumNavigation)
-                                                    .Include(x => x.IdMatchNavigation)
-                                                        .ThenInclude(p => p.IdInstanceNavigation).ToListAsync();
+            return await _context.SoccerTeam.Include(x=>x.IdGroupsNavigation).ToListAsync();
         }
 
-        public async Task<Matchkey> GetKey(Matchkey matchkey)
+        public async Task<IEnumerable<SoccerTeam>> GetWinner(int g)
         {
-            var groups = await this.GetIncidents();
-            if(groups == null)
-            {
-                throw new FileNotFoundException();
-            }
-            else
-            {
-                foreach (Incidents team in groups) 
-                {
-                    
-                    if(team.IdMatchNavigation.IdScoccerTeamLocalNavigation.Goal >
-                        team.IdMatchNavigation.IdSoccerteamVisitNavigation.Goal)
-                    {
-                        matchkey.SoccerTeam1 = team.IdSocceteamNavigation.Country;
-                    }
-                    else
-                    {
-                        var group = team.IdSocceteamNavigation.IdGroupsNavigation.NameGroup;
+            
+            var match = await this.GetPoints();
+            match = (from a in match
+                     orderby a.Points
+                     where a.IdGroupsNavigation.IdGroups == g           
+                     select a).ToList();
 
-                       //if(team.IdSocceteamNavigation.Goal is group)
-                       // {
-                            
-                       // }
-                    }
-                }
-                return matchkey;    
-            }
+            return match.ToList();                    
+          
         }
     }
 }
