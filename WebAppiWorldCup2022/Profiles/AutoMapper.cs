@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using WebAppiWorldCup2022.Models;
 using WebAppiWorldCup2022.Models.ViewModels;
+using WebAppiWorldCup2022.Models.ViewModels.IncidentsviewModels;
 using WebAppiWorldCup2022.Models.ViewModels.MatchViewModels;
 
 namespace WebAppiWorldCup2022.Profiles
@@ -19,14 +20,22 @@ namespace WebAppiWorldCup2022.Profiles
                 .ForMember(m => m.Position, o => o.MapFrom(x => x.Position));
 
             CreateMap<Incidents, IncidentViewModel>()
-                .ForMember(m => m.Stadium, o => o.MapFrom(x => x.IdMatchNavigation.IdStadiumNavigation.Name))
-                .ForMember(m => m.Instance, o => o.MapFrom(x => x.IdMatchNavigation.IdInstanceNavigation.InstanceName))
+                .ForMember(m => m.Stadium, o => o.MapFrom(x => x.IdMatchNavigation.IdStadiumNavigation.Name))                
                 .ForMember(m => m.SoccerTeamLocal, o => o.MapFrom(x => x.IdMatchNavigation.IdScoccerTeamLocalNavigation.Country))
                 .ForMember(m => m.SoccerTeamVisit, o => o.MapFrom(x => x.IdMatchNavigation.IdSoccerteamVisitNavigation.Country))
+                .ForMember(m => m.Instance, o => o.MapFrom(x => x.IdSocceteamNavigation.IdGroupsNavigation.NameGroup))
                 .ForMember(m => m.MatchDay, o => o.MapFrom(x => x.IdMatchNavigation.MatchDay))
-                .ForMember(m => m.Goal, o => o.MapFrom(x => x.IdSocceteamNavigation.Country))
+                .ForMember(m => m.Goal, o => o.MapFrom(x => x.IdSocceteamNavigation.Goal))
                 .ForMember(m => m.YellowCard, o => o.MapFrom(x => x.YellowCrad))
                 .ForMember(m => m.RedCard, o => o.MapFrom(x => x.RedCard));
+
+            CreateMap<Incidents, CreateIncidentsViewmodel>()
+
+                .ForMember(m => m.Soccerteam, o => o.MapFrom(x => x.IdMatchNavigation.IdScoccerTeamLocalNavigation.Country))
+                .ForMember(m => m.NamePlayer, o => o.MapFrom(x => x.IdPlayerNavigation.IdPersonNavigation.Name))
+                .ForMember(m => m.idMatch, o => o.MapFrom(x => x.IdMatchNavigation.IdMatch))
+                .ForMember(m => m.Goal, o => o.MapFrom(x => x.Goal));
+               
 
             CreateMap<Match, CreateMatchViewModel>()
                 .ForMember(m => m.Stadium, o => o.MapFrom(x => x.IdStadium))
@@ -41,6 +50,10 @@ namespace WebAppiWorldCup2022.Profiles
                 .ForMember(m => m.SoccerTeamLocal, o => o.MapFrom(x => x.IdScoccerTeamLocalNavigation.Country))
                 .ForMember(m => m.SoccerTeamVisit, o => o.MapFrom(x => x.IdSoccerteamVisitNavigation.Country))
                 .ForMember(m => m.MatchDay, o => o.MapFrom(x => x.MatchDay));
+
+            CreateMap<SoccerTeam, Matchkey>()
+                .ForMember(m => m.SoccerTeam1, o => o.MapFrom(x => x.Country))
+                .ForMember(m => m.SoccerTeam2, o => o.MapFrom(x => x.Country));
 
 
         }

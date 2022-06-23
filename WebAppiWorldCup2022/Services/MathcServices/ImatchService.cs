@@ -7,6 +7,7 @@ namespace WebAppiWorldCup2022.Services
     public interface ImatchService
     {
         Task<IEnumerable<Match>> GetMatch();
-       Task<Match>PostMatch(CreateMatchViewModel createMatchView);
+        Task<Match>PostMatch(CreateMatchViewModel createMatchView);      
+
     }
 }

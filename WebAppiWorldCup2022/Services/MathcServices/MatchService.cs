@@ -29,7 +29,7 @@ namespace WebAppiWorldCup2022.Services.MathcServices
         public async Task<Match> PostMatch(CreateMatchViewModel matchView)
         {
             var match = new Match()
-            {
+            {                
                 IdStadium = (int)matchView.Stadium,
                 IdInstance = (int)matchView.Instance,
                 IdScoccerTeamLocal = (int)matchView.SoccerTeamLocal,
@@ -41,7 +41,7 @@ namespace WebAppiWorldCup2022.Services.MathcServices
             await _context.SaveChangesAsync();
             return match;
         }
- 
 
+     
     }
 }

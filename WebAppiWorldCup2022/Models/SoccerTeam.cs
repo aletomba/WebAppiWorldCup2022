@@ -20,6 +20,7 @@ namespace WebAppiWorldCup2022.Models
         public string Country { get; set; }
         public int? IdGroups { get; set; }
         public int? Goal { get; set; }
+        public int? Points { get; set; }
 
         public virtual Groups IdGroupsNavigation { get; set; }
         public virtual ICollection<Coach> Coach { get; set; }

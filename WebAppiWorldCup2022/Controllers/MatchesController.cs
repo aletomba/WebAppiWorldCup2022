@@ -31,7 +31,7 @@ namespace WebAppiWorldCup2022.Controllers
         }
 
      
-        [HttpGet] //falta crear servicio
+        [HttpGet] //falta control de errores
         public async Task<IEnumerable<MatchViewModel>> GetMatch()
         {
             var match = await _service.GetMatch();
