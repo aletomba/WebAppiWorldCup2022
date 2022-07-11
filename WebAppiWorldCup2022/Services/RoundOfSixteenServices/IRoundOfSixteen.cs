@@ -7,6 +7,6 @@ namespace WebAppiWorldCup2022.Services.RoundOf16Services
     {
         Task<IEnumerable<SoccerTeam>> GetPoints();
 
-        Task<IEnumerable<SoccerTeam>> GetWinner(int g);
+        Task<List<SoccerTeam>> GetWinner(/*int g*/);
     }
 }
