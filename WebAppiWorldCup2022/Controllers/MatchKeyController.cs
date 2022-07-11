@@ -35,21 +35,26 @@ namespace WebAppiWorldCup2022.Controllers
         [HttpGet("{id}")]
         public async Task<IEnumerable<Matchkey>> Get(int id)
         {
-            var teamMaxPoint = await _service.GetWinner(id);
+            var teamMaxPoint = await _service.GetWinner();
             var key = _mapper.Map<IEnumerable<Matchkey>>(teamMaxPoint);
             return key;
         }
 
 
 
-        //[HttpPost]
-        //public async Task<IEnumerable<Matchkey>> Post(Matchkey match)
-        //{
-        //    var Winners = await _service.GetWinner();
-        //    var view = _mapper.Map<IEnumerable<Matchkey>>(Winners);
-        //    return view;
+        [HttpPost]
+        public async Task<Matchkey> Post(/*int g*/)
+        {
+            Matchkey matchkey = new Matchkey();
+            var Winners = await _service.GetWinner();
+            //var view = _mapper.Map<IEnumerable<Matchkey>>(Winners);
+            //
+            matchkey.SoccerTeam1 = Winners[0].Country;
+            matchkey.SoccerTeam2= Winners[1].Country;   
+            
+            return matchkey;
 
-        //}
+        }
 
 
         [HttpPut("{id}")]

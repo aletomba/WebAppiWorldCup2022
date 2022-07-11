@@ -11,6 +11,7 @@ using WebAppiWorldCup2022.Models;
 using WebAppiWorldCup2022.Models.ViewModels;
 using WebAppiWorldCup2022.Models.ViewModels.MatchViewModels;
 using WebAppiWorldCup2022.Services;
+using WebAppiWorldCup2022.ViewModels.MatchViewModels;
 
 namespace WebAppiWorldCup2022.Controllers
 {
@@ -39,52 +40,52 @@ namespace WebAppiWorldCup2022.Controllers
         }
 
 
-        [HttpGet("{id}")] //falta mapear y crear service
-        public async Task<ActionResult<Match>> GetMatch(int id)
+        [HttpGet("{id}")] //funcionando
+        public async Task<ActionResult<MatchViewModel>> GetMatch(int id)
         {
-            if (_context.Match == null)
+            try
             {
-                return NotFound();
+                var matchId = await _service.GetMatchById(id);
+                var MatchView = _mapper.Map<MatchViewModel>(matchId);
+                return MatchView;
             }
-            var match = await _context.Match.FindAsync(id);
+            catch (Exception ex)
+            {
+               return NotFound("No se encuentra el partido "+ ex.Message);
+            }
+
+           
+           
+           
+        }
+
+
+        [HttpPut] //tira error cuando guarda
+        public async Task<ActionResult<CreateUpdateViewModel>> PutMatch(CreateUpdateViewModel match)
+        {          
 
             if (match == null)
             {
-                return NotFound();
-            }
-
-            return match;
-        }
-
-        
-        [HttpPut("{id}")] //falta mapear y crear service
-        public async Task<IActionResult> PutMatch(int id, Match match)
-        {
-            if (id != match.IdMatch)
-            {
                 return BadRequest();
             }
-
-            _context.Entry(match).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!MatchExists(id))
+                var matchUpdate = await _service.PutMatch(match);
+                if (matchUpdate == null)
                 {
-                    return NotFound();
+                    return NotFound("aca error");
+
                 }
                 else
                 {
-                    throw;
+                    return Ok (_mapper.Map<CreateUpdateViewModel>(matchUpdate));
                 }
             }
-
-            return NoContent();
-        }       
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
+            }          
+        }
 
 
         [HttpPost] //:funcionando con services la creacion de partido

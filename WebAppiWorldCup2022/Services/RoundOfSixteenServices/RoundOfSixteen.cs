@@ -20,17 +20,17 @@ namespace WebAppiWorldCup2022.Services.RoundOfSixteenServices
             return await _context.SoccerTeam.Include(x=>x.IdGroupsNavigation).ToListAsync();
         }
 
-        public async Task<IEnumerable<SoccerTeam>> GetWinner(int g)
+        public async Task<List<SoccerTeam>> GetWinner(/*int g*/)
         {
             
             var match = await this.GetPoints();
             match = (from a in match
-                     orderby a.Points
-                     where a.IdGroupsNavigation.IdGroups == g           
-                     select a).ToList();
+                     orderby a.Points descending
+                     where a.IdGroupsNavigation.IdGroups == a.IdGroupsNavigation.IdGroups 
+                     select a);
 
             return match.ToList();                    
-          
+          //probar hacer mas partidos a ver si los trae ordenados a los otros grupos
         }
     }
 }
