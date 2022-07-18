@@ -2,7 +2,7 @@
 {
     public class StadiumView
     {
-        public int? Id { get; set; }
+        public int? IdStadium { get; set; }
         public string? Name { get; set; } 
     }
 }

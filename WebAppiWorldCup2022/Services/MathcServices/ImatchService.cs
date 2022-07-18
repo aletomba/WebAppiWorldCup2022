@@ -10,9 +10,8 @@ namespace WebAppiWorldCup2022.Services
         Task<IEnumerable<Match>> GetMatch();
         Task<Match>PostMatch(CreateMatchViewModel createMatchView);
         Task<Match> GetMatchById(int id);
-
-        Task<Match> PutMatch(CreateUpdateViewModel updateMatch);    
-
+        Task<Match> PutMatch(CreateUpdateViewModel updateMatch);
+        Task<Match> DeleteMatch(int id);
 
     }
 }

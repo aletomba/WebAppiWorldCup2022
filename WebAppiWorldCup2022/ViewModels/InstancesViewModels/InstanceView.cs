@@ -2,7 +2,7 @@
 {
     public class InstanceView
     {
-        public int Id { get; set; }
+        public int IdInstance { get; set; }
         public string? Descrition { get; set; }
           
         

@@ -1,8 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using WebAppiWorldCup2022.Data;
 using WebAppiWorldCup2022.Services;
+using WebAppiWorldCup2022.Services.GroupService;
 using WebAppiWorldCup2022.Services.InstanceService;
 using WebAppiWorldCup2022.Services.MathcServices;
+using WebAppiWorldCup2022.Services.PeopleServices;
+using WebAppiWorldCup2022.Services.PlayerServices;
 using WebAppiWorldCup2022.Services.RoundOf16Services;
 using WebAppiWorldCup2022.Services.RoundOfSixteenServices;
 using WebAppiWorldCup2022.Services.SoccerteamService;
@@ -21,6 +24,9 @@ builder.Services.AddTransient<IRoundOfSixteen, RoundOfSixteen>();
 builder.Services.AddTransient<ISoccerTeamService, SoccerTeamService>();
 builder.Services.AddTransient<IStadiumService, StadiumService>();
 builder.Services.AddTransient<IInstansService, InstansService>();
+builder.Services.AddTransient<IGroupService, GroupService>();
+builder.Services.AddTransient<IPLayerService, PlayerService>();
+builder.Services.AddTransient<IPeopleService, PeopleService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
