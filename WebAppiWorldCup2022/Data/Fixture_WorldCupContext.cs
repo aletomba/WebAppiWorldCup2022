@@ -30,7 +30,6 @@ namespace WebAppiWorldCup2022.Data
         public virtual DbSet<RefereeMatch> RefereeMatch { get; set; }
         public virtual DbSet<SoccerTeam> SoccerTeam { get; set; }
         public virtual DbSet<Stadium> Stadium { get; set; }
-   
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

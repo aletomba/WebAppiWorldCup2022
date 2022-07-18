@@ -32,6 +32,7 @@ namespace WebAppiWorldCup2022.Controllers
 
 
         // GET api/<MatchKeyController>/5
+
         [HttpGet("{id}")]
         public async Task<IEnumerable<Matchkey>> Get(int id)
         {
@@ -45,13 +46,17 @@ namespace WebAppiWorldCup2022.Controllers
         [HttpPost]
         public async Task<Matchkey> Post(/*int g*/)
         {
+
             Matchkey matchkey = new Matchkey();
             var Winners = await _service.GetWinner();
             //var view = _mapper.Map<IEnumerable<Matchkey>>(Winners);
             //
-            matchkey.SoccerTeam1 = Winners[0].Country;
-            matchkey.SoccerTeam2= Winners[1].Country;   
-            
+
+            Winners.OrderBy(x => x.Points).OrderBy(x => x.IdGroupsNavigation.IdGroups);
+            matchkey.SoccerTeam1 = Winners[1].Country;
+            //matchkey.SoccerTeam2 = Winners[0].Country;
+
+
             return matchkey;
 
         }

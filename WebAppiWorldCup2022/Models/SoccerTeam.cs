@@ -28,5 +28,6 @@ namespace WebAppiWorldCup2022.Models
         public virtual ICollection<Match> MatchIdScoccerTeamLocalNavigation { get; set; }
         public virtual ICollection<Match> MatchIdSoccerteamVisitNavigation { get; set; }
         public virtual ICollection<Player> Player { get; set; }
+
     }
 }

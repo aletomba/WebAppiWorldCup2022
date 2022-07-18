@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using WebAppiWorldCup2022.Data;
 using WebAppiWorldCup2022.Models;
 using WebAppiWorldCup2022.Models.ViewModels;
+using WebAppiWorldCup2022.Services.PlayerServices;
+using WebAppiWorldCup2022.ViewModels.PLayerViewModel;
 
 namespace WebAppiWorldCup2022.Controllers
 {
@@ -18,24 +20,33 @@ namespace WebAppiWorldCup2022.Controllers
     {
         private readonly Fixture_WorldCupContext _context;
         private readonly IMapper _mapper;
-        public PlayersController(Fixture_WorldCupContext context,IMapper mapper)
+        private readonly IPLayerService _service;
+        public PlayersController(Fixture_WorldCupContext context,IMapper mapper, IPLayerService service)
         {
             _context = context;
             _mapper = mapper;
+            _service = service; 
         }
 
       
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Player>>> GetPlayer()
+        public async Task<IEnumerable<PlayerView>> GetPlayer()
         {
-          if (_context.Player == null)
-          {
-              return NotFound();
-          }
-            return await _context.Player.ToListAsync();
+            try
+            {
+
+                var player = await _service.GetPLayers();
+                return _mapper.Map<IEnumerable<PlayerView>>(player);
+
+            }
+            catch (Exception)
+            {
+                return Enumerable.Empty<PlayerView>();
+            }
+
         }
 
-  
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Player>> GetPlayer(int id)
         {
@@ -85,18 +96,17 @@ namespace WebAppiWorldCup2022.Controllers
 
        
         [HttpPost]
-        public async Task<ActionResult<PersonCreateViewModel>> PostPlayer(PersonCreateViewModel createViewModel)
+        public async Task<ActionResult<CreateUpdatePLayer>> PostPlayer(CreateUpdatePLayer createPLayer) 
         {
-          if (_context.Player == null)
-          {
-              return Problem("Entity set 'Fixture_WorldCupContext.Player'  is null.");
-          }
-          var Player = _context.Player.Include(x => x.IdPersonNavigation).ToListAsync();
-          var CreatePlayer = _mapper.Map<Player>(Player);
-            _context.Player.Add(CreatePlayer);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetPlayer", new { id = CreatePlayer.IdPlayer }, CreatePlayer);
+            try
+            {
+               var player= await _service.CreatePlayer(createPLayer);
+               return _mapper.Map<CreateUpdatePLayer>(player);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }           
         }
 
 

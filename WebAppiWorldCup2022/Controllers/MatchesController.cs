@@ -32,11 +32,18 @@ namespace WebAppiWorldCup2022.Controllers
         }
 
      
-        [HttpGet] //falta control de errores
-        public async Task<IEnumerable<MatchViewModel>> GetMatch()
+        [HttpGet] //funcionando
+        public async Task<IEnumerable<CreateUpdateViewModel>> GetMatch()
         {
-            var match = await _service.GetMatch();
-            return _mapper.Map<IEnumerable<MatchViewModel>>(match);
+            try
+            {
+                var match = await _service.GetMatch();
+                return _mapper.Map<IEnumerable<CreateUpdateViewModel>>(match);
+            }
+            catch (Exception)
+            {
+                return Enumerable.Empty<CreateUpdateViewModel>();   
+            }
         }
 
 
@@ -60,7 +67,7 @@ namespace WebAppiWorldCup2022.Controllers
         }
 
 
-        [HttpPut] //tira error cuando guarda
+        [HttpPut] //funcionando
         public async Task<ActionResult<CreateUpdateViewModel>> PutMatch(CreateUpdateViewModel match)
         {          
 
@@ -109,23 +116,20 @@ namespace WebAppiWorldCup2022.Controllers
         }       
 
 
-        [HttpDelete("{id}")]//Delete : falta mapear y crear servicio
-        public async Task<IActionResult> DeleteMatch(int id)
+        [HttpDelete("{id}")]//funcionando
+        public async Task<ActionResult<Match>> DeleteMatch(int id)
         {
-            if (_context.Match == null)
+            try
             {
-                return NotFound();
+               await  _service.DeleteMatch(id);
             }
-            var match = await _context.Match.FindAsync(id);
-            if (match == null)
+            catch(Exception ex)
             {
-                return NotFound();
+                return BadRequest(ex.InnerException.Message);
             }
 
-            _context.Match.Remove(match);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok("Partido Eliminado");
+    
         }  
 
 

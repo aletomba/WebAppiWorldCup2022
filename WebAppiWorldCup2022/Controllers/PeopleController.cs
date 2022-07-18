@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAppiWorldCup2022.Data;
 using WebAppiWorldCup2022.Models;
+using WebAppiWorldCup2022.Models.ViewModels;
+using WebAppiWorldCup2022.Services.PeopleServices;
 
 namespace WebAppiWorldCup2022.Controllers
 {
@@ -15,10 +18,15 @@ namespace WebAppiWorldCup2022.Controllers
     public class PeopleController : ControllerBase
     {
         private readonly Fixture_WorldCupContext _context;
+        private readonly IPeopleService _service;
+        private readonly IMapper _mapper;
 
-        public PeopleController(Fixture_WorldCupContext context)
+
+        public PeopleController(Fixture_WorldCupContext context, IPeopleService service, IMapper mapper)
         {
             _context = context;
+            _service = service;
+            _mapper = mapper;
         }
 
        
@@ -82,17 +90,17 @@ namespace WebAppiWorldCup2022.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<Person>> PostPerson(Person person)
+        public async Task<ActionResult<PersonCreateViewModel>> PostPerson(PersonCreateViewModel person)
         {
-          if (_context.Person == null)
-          {
-              return Problem("Entity set 'Fixture_WorldCupContext.Person'  is null.");
-          }
-
-            _context.Person.Add(person);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetPerson", new { id = person.IdPerson }, person);
+            try
+            {
+                var people = await _service.CreatePeople(person);
+                return _mapper.Map<PersonCreateViewModel>(people);
+            }
+            catch (Exception ex)
+            {
+              return  BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]

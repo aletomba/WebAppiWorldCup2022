@@ -4,8 +4,6 @@ using WebAppiWorldCup2022.Models;
 using WebAppiWorldCup2022.Services.SoccerteamService;
 using WebAppiWorldCup2022.ViewModels.SoccerTeamViewmodels;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace WebAppiWorldCup2022.Controllers
 {
     [Route("api/[controller]")]
@@ -24,34 +22,87 @@ namespace WebAppiWorldCup2022.Controllers
         [HttpGet]
         public async Task<IEnumerable<SoccerTeamViewModel>> Get()
         {
-            var soccerTeam = await _service.GetSoccerTeam();
-            var soccerTeamView = _mapper.Map<IEnumerable<SoccerTeamViewModel>>(soccerTeam);
-            return soccerTeamView;
+            try
+            {
+                var soccerTeam = await _service.GetSoccerTeam();
+                var soccerTeamView = _mapper.Map<IEnumerable<SoccerTeamViewModel>>(soccerTeam);
+                return soccerTeamView;
+            }
+            catch (Exception)
+            {
+                return Enumerable.Empty<SoccerTeamViewModel>();
+            }
         }
 
-        // GET api/<SoccerTeamController>/5
+        
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<SoccerTeamViewModel>> Get(int id)
         {
-            return "value";
+            try
+            {
+                var soccerteam = await _service.SoccerTeamById(id);
+                return _mapper.Map<SoccerTeamViewModel>(soccerteam);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
-        // POST api/<SoccerTeamController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult<SoccerTeamViewModel>> Post(SoccerTeamViewModel soccerTeam)
         {
+            try
+            {
+                var newMatch = await _service.CreateSoccerTeam(soccerTeam);
+                return _mapper.Map<SoccerTeamViewModel>(newMatch);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // PUT api/<SoccerTeamController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public async Task<ActionResult<SoccerTeamViewModel>> Put(SoccerTeamViewModel soccerTeam)
         {
+            if (soccerTeam == null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                var soccerUpdate = await _service.UpdateSoccerTeam(soccerTeam);
+                if (soccerUpdate == null)
+                {
+                    return NotFound("aca error");
+
+                }
+                else
+                {
+                    return Ok(_mapper.Map<SoccerTeamViewModel>(soccerUpdate));
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
+            }
         }
 
         // DELETE api/<SoccerTeamController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
+            try
+            {
+                var delete = await _service.DeleteSoccerTeam(id);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return Ok("Equipo Eliminado");
         }
     }
 }
